@@ -1,0 +1,3 @@
+NodeJS, ExpressJS code in available in the server folder as server.js. The schema is defined in models folder. The index.html page is the main page which the customer see's and can add medicines to the cart and buy them. The add_customer.html, manage_customer.html and new_invoice.html contains the code for their respective purposes.
+
+Other than these there are pages for login and signup for customers. 
