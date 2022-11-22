@@ -1,0 +1,360 @@
+l
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Add New Medicine</title>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+		<script src="bootstrap/js/jquery.min.js"></script>
+		<script src="bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <link rel="shortcut icon" href="images/icon.svg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/sidenav.css">
+    <link rel="stylesheet" href="css/home.css">
+    <script src="js/suggestions.js"></script>
+    <script src="js/validateForm.js"></script>
+    <script src="js/restrict.js"></script>
+  </head>
+  <body>
+    <div id="add_new_supplier_model">
+      <div class="modal-dialog">
+      	<div class="modal-content">
+      		<div class="modal-header" style="background-color: #ff5252; color: white">
+            <div class="font-weight-bold">Add New Supplier</div>
+      			<button class="close" style="outline: none;" onclick="document.getElementById('add_new_supplier_model').style.display = 'none';"><i class="fa fa-close"></i></button>
+      		</div>
+      		<div class="modal-body">
+            <!-- supplier details content -->
+<!-- supplier name control -->
+<div class="row col col-md-12">
+  <div class="col col-md-12 form-group">
+    <label class="font-weight-bold" for="supplier_name">Supplier Name :</label>
+    <input type="text" class="form-control" placeholder="Name" id="supplier_name" onkeyup="validateName(this.value, 'name_error');">
+    <code class="text-danger small font-weight-bold float-right" id="name_error" style="display: none;"></code>
+  </div>
+</div>
+
+<!-- supplier email control -->
+<div class="row col col-md-12">
+  <div class="col col-md-12 form-group">
+    <label class="font-weight-bold" for="supplier_email">Supplier Email :</label>
+    <input type="email" autocomplete="off" class="form-control" placeholder="Email" id="supplier_email" onblur="validateEmail(this.value, 'email_error');">
+    <code class="text-danger small font-weight-bold float-right" id="email_error" style="display: none;"></code>
+  </div>
+</div>
+
+<!-- supplier contact number control -->
+<div class="row col col-md-12">
+  <div class="col col-md-12 form-group">
+    <label class="font-weight-bold" for="supplier_contact_number">Supplier Contact Number :</label>
+    <input type="number" class="form-control" placeholder="Contact Number" id="supplier_contact_number" onblur="validateContactNumber(this.value, 'contact_number_error');">
+    <code class="text-danger small font-weight-bold float-right" id="contact_number_error" style="display: none;"></code>
+  </div>
+</div>
+
+<!-- supplier address control -->
+<div class="row col col-md-12">
+  <div class="col col-md-12 form-group">
+    <label class="font-weight-bold" for="supplier_address">Supplier Address :</label>
+    <textarea class="form-control" placeholder="Address" id="supplier_address" onblur="validateAddress(this.value, 'address_error');"></textarea>
+    <code class="text-danger small font-weight-bold float-right" id="address_error" style="display: none;"></code>
+  </div>
+</div>
+<!-- supplier details content end -->
+
+<div class="col col-md-12">
+  <hr class="col-md-12 float-left" style="padding: 0px; width: 95%; border-top: 2px solid  #02b6ff;">
+</div>
+
+<!-- new user button -->
+<div class="row col col-md-12">
+  &emsp;
+  <div class="form-group m-auto">
+    <button class="btn btn-primary form-control" onclick="addSupplier();">ADD</button>
+  </div>
+  <!--
+  &emsp;
+  <div class="form-group">
+    <button class="btn btn-success form-control">Save and Add Another</button>
+  </div>
+  -->
+</div>
+<!-- result message -->
+<div id="supplier_acknowledgement" class="col-md-12 h5 text-success font-weight-bold text-center" style="font-family: sans-serif;"></div>
+      		</div>
+      	</div>
+      </div>
+    </div>
+    <!-- including side navigations -->
+    <script type="text/javascript">
+  var pid = "none";
+  function showhide(id) {
+    var elements = document.getElementById(id).childNodes;
+    var menu = elements[3];
+    var arrow = ((elements[1].childNodes)[4].childNodes)[1];
+    if(menu.style.display == 'block') {
+      menu.style.display = "none";
+      arrow.style.transform = "rotate(0deg)";
+      elements[1].style.color = "#eeeeee";
+    }
+    else {
+      menu.style.display = "block";
+      arrow.style.transform = "rotate(270deg)";
+      elements[1].style.color = "#ff5252";
+    }
+    if(pid == id)
+      pid = "none";
+    if(pid != "none") {
+      elements = document.getElementById(pid).childNodes;
+      menu = (document.getElementById(pid).childNodes)[3];
+      arrow = ((elements[1].childNodes)[4].childNodes)[1];
+      if(menu.style.display == 'block') {
+        menu.style.display = "none";
+        arrow.style.transform = "rotate(0deg)";
+        elements[1].style.color = "#eeeeee";
+      }
+    }
+    pid = id;
+  }
+
+  function showOptions() {
+    var flag = document.getElementById('options');
+    if(flag.style.display == 'block') {
+      flag.style.display = "none";
+      document.getElementById('mark').style.display = "none";
+    }
+    else {
+      flag.style.display = "block";
+      document.getElementById('mark').style.display = "block";
+    }
+  }
+</script>
+
+<div class="sidenav">
+  <div class="card">
+    <div class="card-body">
+      <div class="logo">
+        <img src="images/prof.jpg" class="profile"/>
+        <h1 class="logo-caption"><span class="tweak">A</span>dmin</h1>
+      </div> <!-- logo class -->
+
+      <!-- dashboard start -->
+      <div class="main-menu-item">
+        <a href="home.php"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
+      </div>
+      <!-- dashboard end -->
+
+      <!-- invoice strat -->
+      <div id="first" class="main-menu-item" onclick="showhide(this.id);">
+      	<a  href="#">
+      		<i class="fa fa-balance-scale"></i><span>Invoice</span>
+      		<span class="pull-right-container">
+      			<i class="fa fa-angle-left pull-right"></i>
+      		</span>
+      	</a>
+      	<ul class="treeview-menu" style="display: none;">
+      		<li class="treeview"><a href="new_invoice.php">New Invoice</a></li>
+      		<li class="treeview"><a href="manage_invoice.php">Manage Invoice </a></li>
+      	</ul>
+      </div>
+      <!-- invoice end -->
+
+      <!-- customer end -->
+      <div id="second" class="main-menu-item" onclick="showhide(this.id);">
+      	<a href="#">
+      		<i class="fa fa-handshake"></i><span>Customer</span>
+      		<span class="pull-right-container">
+      			<i class="fa fa-angle-left pull-right"></i>
+      		</span>
+      	</a>
+      	<ul class="treeview-menu" style="display: none;">
+      		<li class="treeview"><a href="add_customer.php">Add Customer</a></li>
+      		<li class="treeview"><a href="manage_customer.php">Manage Customer</a></li>
+      	</ul>
+      </div>
+      <!-- customer end -->
+
+      <!-- medicine strat -->
+      <div id="third" class="main-menu-item" onclick="showhide(this.id);">
+      	<a href="#">
+      		<i class="fa fa-shopping-bag"></i><span>Medicine</span>
+      		<span class="pull-right-container">
+      			<i class="fa fa-angle-left pull-right"></i>
+      		</span>
+      	</a>
+      	<ul class="treeview-menu" style="display: none;">
+      		<li class="treeview"><a href="add_medicine.php">Add Medicine</a></li>
+      		<li class="treeview"><a href="manage_medicine.php">Manage Medicine</a></li>
+          <li class="treeview"><a href="manage_medicine_stock.php">Manage Medicine Stock</a></li>
+      	</ul>
+      </div>
+      <!-- medicine end -->
+
+      <!-- manufacturer start -->
+      <div id="fourth" class="main-menu-item" onclick="showhide(this.id);">
+      	<a href="#">
+      		<i class="fa fa-group"></i><span>Supplier</span>
+      		<span class="pull-right-container">
+      			<i class="fa fa-angle-left pull-right"></i>
+      		</span>
+      	</a>
+      	<ul class="treeview-menu" style="display: none;">
+      		<li class="treeview"><a href="add_supplier.php">Add Supplier</a></li>
+      		<li class="treeview"><a href="manage_supplier.php">Manage Supplier</a></li>
+      	</ul>
+      </div>
+      <!-- manufacturer end -->
+
+      <!-- purchase start -->
+      <div id="fifth" class="main-menu-item" onclick="showhide(this.id);">
+      	<a href="#">
+      		<i class="fa fa-bar-chart"></i><span>Purchase</span>
+      		<span class="pull-right-container">
+      			<i class="fa fa-angle-left pull-right"></i>
+      		</span>
+      	</a>
+      	<ul class="treeview-menu" style="display: none;">
+      		<li class="treeview"><a href="add_purchase.php">Add Purchase</a></li>
+      		<li class="treeview"><a href="manage_purchase.php">Manage Purchase</a></li>
+      	</ul>
+      </div>
+      <!-- purchase end -->
+
+      <!-- report start -->
+      <div id="sixth" class="main-menu-item" onclick="showhide(this.id);">
+      	<a href="#">
+      		<i class="fa fa-book"></i><span>Report</span>
+      		<span class="pull-right-container">
+      			<i class="fa fa-angle-left pull-right"></i>
+      		</span>
+      	</a>
+      	<ul class="treeview-menu" style="display: none;">
+          <li class="treeview"><a href="sales_report.php">Sales Report</a></li>
+      		<li class="treeview"><a href="purchase_report.php">Purchase Report</a></li>
+      	</ul>
+      </div>
+      <!-- report end -->
+
+      <!-- search start -->
+      <div id="seventh" class="main-menu-item" onclick="showhide(this.id);">
+      	<a href="#">
+      		<i class="fa fa-search"></i><span>Search</span>
+      		<span class="pull-right-container">
+      			<i class="fa fa-angle-left pull-right"></i>
+      		</span>
+      	</a>
+      	<ul class="treeview-menu" style="display: none;">
+          <li class="treeview"><a href="manage_invoice.php">Invoice</a></li>
+          <li class="treeview"><a href="manage_customer.php">Customer</a></li>
+      		<li class="treeview"><a href="manage_medicine.php">Medicine</a></li>
+          <li class="treeview"><a href="manage_supplier.php">Supplier</a></li>
+      		<li class="treeview"><a href="manage_purchase.php">Purchase</a></li>
+      	</ul>
+      </div>
+      <!-- search end -->
+
+    </div> <!-- card-body class -->
+  </div> <!-- card  -->
+</div>
+
+    <div class="container-fluid">
+      <div class="container">
+
+        <!-- header section -->
+        
+    <section class="row content-header">
+      <div class="header-title col-md-11">
+        <p class="h4 pt-2"><i class="fa fa-shopping-bag"></i>&emsp;Add Medicine</p>
+        &emsp;&emsp;&emsp;<small class="font-weight-bold h6">Add New Medicine</small>
+      </div>
+      <div class="col-md-1 user_options">
+        <button class="col col-md-1 m-3" onclick="showOptions();">
+          <i class="fa fa-gear"></i>
+        </button>
+        <div id="mark"><i class="fa fa-play fa-rotate-270"></i></div>
+        <ul id="options" class="options list-unstyled" style="display: none;">
+          <li>
+            <a href="my_profile.php"><i class="fa fa-user"></i><span>My Profile</span></a>
+          </li>
+          <li>
+            <a href="change_password.php"><i class="fa fa-edit"></i><span>Change Password</span></a>
+          </li>
+          <li>
+            <a href="logout.php"><i class="fa fa-key"></i><span>Logout</span></a>
+          </li>
+        </ul>
+      </div>
+    </section>
+    <hr style="border-top: 2px solid #ff5252;">
+            <!-- header section end -->
+
+        <!-- form content -->
+        <div class="row">
+          <div class="row col col-md-6">
+            <div class="row col col-md-12">
+  <div class="col col-md-8 form-group">
+    <label class="font-weight-bold" for="medicine_name">Medicine Name :</label>
+    <input type="text" class="form-control" id="medicine_name" placeholder="Medicine Name" onblur="notNull(this.value, 'medicine_name_error');">
+    <code class="text-danger small font-weight-bold float-right" id="medicine_name_error" style="display: none;"></code>
+  </div>
+  <div class="col col-md-4 form-group">
+    <label class="font-weight-bold" for="packing">Packing :</label>
+    <input type="text" class="form-control" id="packing" placeholder="Packing e.g. 10 TAB / 100 ML" onblur="notNull(this.value, 'pack_error');">
+    <code class="text-danger small font-weight-bold float-right" id="pack_error" style="display: none;"></code>
+  </div>
+</div>
+
+<div class="row col col-md-12">
+  <div class="col col-md-12 form-group">
+    <label class="font-weight-bold" for="generic_name">Generic Name :</label>
+    <input type="text" class="form-control" id="generic_name" placeholder="Generic Name" onblur="notNull(this.value, 'generic_name_error');">
+    <code class="text-danger small font-weight-bold float-right" id="generic_name_error" style="display: none;"></code>
+  </div>
+</div>
+
+<div class="row col col-md-12">
+  <div class="col col-md-12 form-group">
+    <label class="font-weight-bold" for="suppliers_name">Supplier :</label>
+    <input id="suppliers_name" type="text" class="form-control" id="suppliers_name" placeholder="Supplier Name" name="suppliers_name" onkeyup="showSuggestions(this.value, 'supplier');">
+    <code class="text-danger small font-weight-bold float-right" id="supplier_name_error" style="display: none;"></code>
+    <div id="supplier_suggestions" class="list-group position-fixed" style="z-index: 1; width: 35.80%; overflow: auto; max-height: 200px;"></div>
+  </div>
+</div>
+
+<div class="row col col-md-12">
+  <div class="col col-md-5 font-weight-bold" style="color: green;cursor:pointer" onclick="document.getElementById('add_new_supplier_model').style.display = 'block';">
+    <i class="fa fa-plus"></i>Add New Supplier
+  </div>
+</div>
+<hr>
+
+<div class="col col-md-12">
+  <hr class="col-md-12 float-left" style="padding: 0px; width: 95%; border-top: 2px solid  #02b6ff;">
+</div>
+
+<!-- new user button -->
+<div class="row col col-md-12">
+  &emsp;
+  <div class="form-group m-auto">
+    <button class="btn btn-primary form-control" onclick="addMedicine();">ADD</button>
+  </div>
+  <!--
+  &emsp;
+  <div class="form-group">
+    <button class="btn btn-success form-control">Save and Add Another</button>
+  </div>
+-->
+</div>
+<!-- customer details content end -->
+<!-- result message -->
+<div id="medicine_acknowledgement" class="col-md-12 h5 text-success font-weight-bold text-center" style="font-family: sans-serif;"></div>
+          </div>
+        </div>
+
+        <hr style="border-top: 2px solid #ff5252;">
+        <!-- form content end -->
+      </div>
+    </div>
+  </body>
+</html>

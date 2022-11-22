@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<user>
+	<name>Pranav</name>
+	<email>pranavadith7@gmail.com</email>
+	<phone>9361213492</phone>
+	<date>17/08/2022</date>
+	<medicine>Paracetamol</medicine>
+	<quantity>10</quantity>
+	<price>10</price>
+	<total>100</total>
+	<copyright>
+		<year>2022</year>
+		<company>On Time Pharmacy</company>
+	</copyright>
+</user>

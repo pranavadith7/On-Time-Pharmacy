@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8" />
+    <title>New Invoice</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css" />
+    <script src="bootstrap/js/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+      integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+      crossorigin="anonymous"
+    />
+    <link rel="shortcut icon" href="images/icon.svg" type="image/x-icon" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link rel="stylesheet" href="css/sidenav.css" />
+    <link rel="stylesheet" href="css/home.css" />
+    <script src="js/suggestions.js"></script>
+    <script src="js/add_new_invoice.js"></script>
+    <script src="js/manage_invoice.js"></script>
+    <script src="js/validateForm.js"></script>
+    <script src="js/restrict.js"></script>
+  </head>
+  <body ng-app="customerApp" ng-controller="customerController">
+    <div id="add_new_customer_model">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div
+            class="modal-header"
+            style="background-color: #ff5252; color: white"
+          >
+            <div class="font-weight-bold">Add New Customer</div>
+            <button
+              class="close"
+              style="outline: none"
+              onclick="document.getElementById('add_new_customer_model').style.display = 'none';"
+            >
+              <i class="fa fa-close"></i>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- customer details content -->
+            <!-- customer name control -->
+            <div class="row col col-md-12">
+              <div class="col col-md-12 form-group">
+                <label class="font-weight-bold" for="customer_name"
+                  >Customer Name :</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Name"
+                  id="customer_name"
+                  onkeyup="validateName(this.value, 'name_error');"
+                />
+                <code
+                  class="text-danger small font-weight-bold float-right"
+                  id="name_error"
+                  style="display: none"
+                ></code>
+              </div>
+            </div>
+
+            <!-- customer contact number control -->
+            <div class="row col col-md-12">
+              <div class="col col-md-12 form-group">
+                <label class="font-weight-bold" for="customer_contact_number"
+                  >Contact Number :</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  placeholder="Contact Number"
+                  id="customer_contact_number"
+                  onblur="validateContactNumber(this.value, 'contact_number_error');"
+                />
+                <code
+                  class="text-danger small font-weight-bold float-right"
+                  id="contact_number_error"
+                  style="display: none"
+                ></code>
+              </div>
+            </div>
+
+            <!-- customer address control -->
+            <div class="row col col-md-12">
+              <div class="col col-md-12 form-group">
+                <label class="font-weight-bold" for="customer_address"
+                  >Address :</label
+                >
+                <textarea
+                  class="form-control"
+                  placeholder="Address"
+                  id="customer_address"
+                  onblur="validateAddress(this.value, 'address_error');"
+                ></textarea>
+                <code
+                  class="text-danger small font-weight-bold float-right"
+                  id="address_error"
+                  style="display: none"
+                ></code>
+              </div>
+            </div>
+
+            <!-- customes's doctor name -->
+            <div class="row col col-md-12">
+              <div class="col col-md-12 form-group">
+                <label class="font-weight-bold" for="customer_doctors_name"
+                  >Doctor's Name :</label
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Doctor's Name"
+                  id="customer_doctors_name"
+                  onkeyup="validateName(this.value, 'doctor_name_error');"
+                />
+                <code
+                  class="text-danger small font-weight-bold float-right"
+                  id="doctor_name_error"
+                  style="display: none"
+                ></code>
+              </div>
+            </div>
+
+            <!-- customes's doctor name -->
+            <div class="row col col-md-12">
+              <div class="col col-md-12 form-group">
+                <label class="font-weight-bold" for="customer_doctors_address"
+                  >Doctor's Address :</label
+                >
+                <textarea
+                  class="form-control"
+                  placeholder="Doctor's Address"
+                  id="customer_doctors_address"
+                  onblur="validateAddress(this.value, 'doctor_address_error');"
+                ></textarea>
+                <code
+                  class="text-danger small font-weight-bold float-right"
+                  id="doctor_address_error"
+                  style="display: none"
+                ></code>
+              </div>
+            </div>
+            <!-- customer details content end -->
+
+            <!-- horizontal line -->
+            <div class="col col-md-12">
+              <hr
+                class="col-md-12 float-left"
+                style="padding: 0px; width: 95%; border-top: 2px solid #02b6ff"
+              />
+            </div>
+
+            <!-- form submit button -->
+            <div class="row col col-md-12">
+              &emsp;
+              <div class="form-group m-auto">
+                <button class="btn btn-primary" onclick="addCustomer();">
+                  ADD
+                </button>
+              </div>
+              <!--
+  &emsp;
+  <div class="form-group">
+    <button class="btn btn-success form-control">Save and Add Another</button>
+  </div>
+  -->
+            </div>
+            <!-- result message -->
+            <div
+              id="customer_acknowledgement"
+              class="col-md-12 h5 text-success font-weight-bold text-center"
+              style="font-family: sans-serif"
+            ></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- including side navigations -->
+    <script type="text/javascript">
+      var pid = "none";
+      function showhide(id) {
+        var elements = document.getElementById(id).childNodes;
+        var menu = elements[3];
+        var arrow = elements[1].childNodes[4].childNodes[1];
+        if (menu.style.display == "block") {
+          menu.style.display = "none";
+          arrow.style.transform = "rotate(0deg)";
+          elements[1].style.color = "#eeeeee";
+        } else {
+          menu.style.display = "block";
+          arrow.style.transform = "rotate(270deg)";
+          elements[1].style.color = "#ff5252";
+        }
+        if (pid == id) pid = "none";
+        if (pid != "none") {
+          elements = document.getElementById(pid).childNodes;
+          menu = document.getElementById(pid).childNodes[3];
+          arrow = elements[1].childNodes[4].childNodes[1];
+          if (menu.style.display == "block") {
+            menu.style.display = "none";
+            arrow.style.transform = "rotate(0deg)";
+            elements[1].style.color = "#eeeeee";
+          }
+        }
+        pid = id;
+      }
+
+      function showOptions() {
+        var flag = document.getElementById("options");
+        if (flag.style.display == "block") {
+          flag.style.display = "none";
+          document.getElementById("mark").style.display = "none";
+        } else {
+          flag.style.display = "block";
+          document.getElementById("mark").style.display = "block";
+        }
+      }
+    </script>
+
+    <div class="sidenav">
+      <div class="card">
+        <div class="card-body">
+          <div class="logo">
+            <img src="images/profile.jpg" class="profile" />
+            <h1 class="logo-caption"><span class="tweak">A</span>dmin</h1>
+          </div>
+          <!-- logo class -->
+
+          <!-- dashboard start -->
+          <div class="main-menu-item">
+            <a href="home.html"
+              ><i class="fa fa-dashboard"></i><span>Dashboard</span></a
+            >
+          </div>
+          <!-- dashboard end -->
+
+          <!-- invoice start -->
+          <div id="first" class="main-menu-item" onclick="showhide(this.id);">
+            <a href="#">
+              <i class="fa fa-balance-scale"></i><span>Invoice</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu" style="display: none">
+              <li class="treeview">
+                <a href="new_invoice.html">New Invoice</a>
+              </li>
+              <li class="treeview">
+                <a href="manage_invoice.html">Manage Invoice </a>
+              </li>
+            </ul>
+          </div>
+          <!-- invoice end -->
+
+          <!-- customer end -->
+          <div id="second" class="main-menu-item" onclick="showhide(this.id);">
+            <a href="#">
+              <i class="fa fa-handshake"></i><span>Customer</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu" style="display: none">
+              <li class="treeview">
+                <a href="add_customer.html">Add Customer</a>
+              </li>
+              <li class="treeview">
+                <a href="manage_customer.html">Manage Customer</a>
+              </li>
+            </ul>
+          </div>
+          <!-- customer end -->
+
+          <!-- medicine start -->
+          <div id="third" class="main-menu-item" onclick="showhide(this.id);">
+            <a href="#">
+              <i class="fa fa-shopping-bag"></i><span>Medicine</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu" style="display: none">
+              <li class="treeview">
+                <a href="add_medicine.html">Add Medicine</a>
+              </li>
+              <li class="treeview">
+                <a href="manage_medicine.html">Manage Medicine</a>
+              </li>
+              <li class="treeview">
+                <a href="manage_medicine_stock.html">Manage Medicine Stock</a>
+              </li>
+            </ul>
+          </div>
+          <!-- medicine end -->
+
+          <!-- manufacturer start -->
+          <div id="fourth" class="main-menu-item" onclick="showhide(this.id);">
+            <a href="#">
+              <i class="fa fa-group"></i><span>Supplier</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu" style="display: none">
+              <li class="treeview">
+                <a href="add_supplier.html">Add Supplier</a>
+              </li>
+              <li class="treeview">
+                <a href="manage_supplier.html">Manage Supplier</a>
+              </li>
+            </ul>
+          </div>
+          <!-- manufacturer end -->
+
+          <!-- purchase start -->
+          <div id="fifth" class="main-menu-item" onclick="showhide(this.id);">
+            <a href="#">
+              <i class="fa fa-bar-chart"></i><span>Purchase</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu" style="display: none">
+              <li class="treeview">
+                <a href="add_purchase.html">Add Purchase</a>
+              </li>
+              <li class="treeview">
+                <a href="manage_purchase.html">Manage Purchase</a>
+              </li>
+            </ul>
+          </div>
+          <!-- purchase end -->
+
+          <!-- report start -->
+          <div id="sixth" class="main-menu-item" onclick="showhide(this.id);">
+            <a href="#">
+              <i class="fa fa-book"></i><span>Report</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu" style="display: none">
+              <li class="treeview">
+                <a href="sales_report.html">Sales Report</a>
+              </li>
+              <li class="treeview">
+                <a href="purchase_report.html">Purchase Report</a>
+              </li>
+            </ul>
+          </div>
+          <!-- report end -->
+
+          <!-- search start -->
+          <div id="seventh" class="main-menu-item" onclick="showhide(this.id);">
+            <a href="#">
+              <i class="fa fa-search"></i><span>Search</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+            </a>
+            <ul class="treeview-menu" style="display: none">
+              <li class="treeview">
+                <a href="manage_invoice.html">Invoice</a>
+              </li>
+              <li class="treeview">
+                <a href="manage_customer.html">Customer</a>
+              </li>
+              <li class="treeview">
+                <a href="manage_medicine.html">Medicine</a>
+              </li>
+              <li class="treeview">
+                <a href="manage_supplier.html">Supplier</a>
+              </li>
+              <li class="treeview">
+                <a href="manage_purchase.html">Purchase</a>
+              </li>
+            </ul>
+          </div>
+          <!-- search end -->
+        </div>
+        <!-- card-body class -->
+      </div>
+      <!-- card  -->
+    </div>
+
+    <div class="container-fluid">
+      <div class="container">
+        <!-- header section -->
+
+        <section class="row content-header">
+          <div class="header-title col-md-11">
+            <p class="h4 pt-2">
+              <i class="fa fa-clipboard"></i>&emsp;New Invoice
+            </p>
+            &emsp;&emsp;&emsp;<small class="font-weight-bold h6"
+              >Create New Invoice</small
+            >
+          </div>
+          <div class="col-md-1 user_options">
+            <button class="col col-md-1 m-3" onclick="showOptions();">
+              <i class="fa fa-gear"></i>
+            </button>
+            <div id="mark"><i class="fa fa-play fa-rotate-270"></i></div>
+            <ul
+              id="options"
+              class="options list-unstyled"
+              style="display: none"
+            >
+              <li>
+                <a href="my_profile.html"
+                  ><i class="fa fa-user"></i><span>My Profile</span></a
+                >
+              </li>
+              <li>
+                <a href="change_password.html"
+                  ><i class="fa fa-edit"></i><span>Change Password</span></a
+                >
+              </li>
+              <li>
+                <a href="logout.html"
+                  ><i class="fa fa-key"></i><span>Logout</span></a
+                >
+              </li>
+            </ul>
+          </div>
+        </section>
+        <hr style="border-top: 2px solid #ff5252" />
+        <!-- header section end -->
+        <!-- fs -->
+        <!-- form content -->
+        <div class="row">
+          <!-- customer details content -->
+          <div class="row col col-md-12">
+            <div class="col col-md-3 form-group">
+              <label class="font-weight-bold" for="customers_name"
+                >Customer Name :</label
+              >
+              <select
+                name="customerName"
+                ng-model="customerName"
+                id="customerName"
+                class="form-control"
+                ng-change="changeCustomer()"
+              >
+                <option
+                  ng-repeat="cust in customers"
+                  value="{{ cust.customerName }}"
+                >
+                  {{ cust.customerName }}
+                </option>
+              </select>
+              <!-- <input id="customers_name" type="text" class="form-control" placeholder="Customer Name" name="customers_name" onkeyup="showSuggestions(this.value, 'customer');"> -->
+              <code
+                class="text-danger small font-weight-bold float-right"
+                id="customer_name_error"
+                style="display: none"
+              ></code>
+              <div
+                id="customer_suggestions"
+                class="list-group position-fixed"
+                style="
+                  z-index: 1;
+                  width: 18.3%;
+                  overflow: auto;
+                  max-height: 200px;
+                "
+              ></div>
+            </div>
+            <div class="col col-md-3 form-group">
+              <label class="font-weight-bold" for="customers_address"
+                >Address :</label
+              >
+              <input
+                id="customers_address"
+                type="text"
+                ng-model="address"
+                class="form-control"
+                name="customers_address"
+                placeholder="Address"
+                disabled
+              />
+            </div>
+            <div class="col col-md-2 form-group">
+              <label class="font-weight-bold" for="invoice_number"
+                >Invoice Number :</label
+              >
+              <input
+                id="invoice_number"
+                type="text"
+                class="form-control"
+                name="invoice_number"
+                placeholder="Invoice Number"
+                disabled
+              />
+            </div>
+            <div class="col col-md-2 form-group">
+              <label class="font-weight-bold" for="">Payment Type :</label>
+              <select
+                id="payment_type"
+                ng-model="paymentType"
+                class="form-control"
+              >
+                <option value="1">Cash Payment</option>
+                <option value="2">Card Payment</option>
+                <option value="3">Net Banking</option>
+              </select>
+            </div>
+            <div class="col col-md-2 form-group">
+              <label class="font-weight-bold" for="">Date :</label>
+              <input
+                ng-model="date"
+                type="date"
+                class="datepicker form-control hasDatepicker"
+                id="invoice_date"
+                value="2022-11-10"
+                onblur="checkDate(this.value, 'date_error');"
+              />
+              <code
+                class="text-danger small font-weight-bold float-right"
+                id="date_error"
+                style="display: none"
+              ></code>
+            </div>
+          </div>
+          <!-- customer details content end -->
+
+          <!-- new user button -->
+          <div class="row col col-md-12">
+            <div class="col col-md-2 form-group">
+              <button
+                class="btn btn-primary form-control"
+                onclick="document.getElementById('add_new_customer_model').style.display = 'block';"
+              >
+                New Customer
+              </button>
+            </div>
+            <div class="col col-md-1 form-group"></div>
+            <div class="col col-md-2 form-group">
+              <label class="font-weight-bold" for="customers_contact_number"
+                >Contact Number :</label
+              >
+              <input
+                ng-model="contactNumber"
+                type="number"
+                class="form-control"
+                name="customers_contact_number"
+                placeholder="Contact Number"
+                disabled
+              />
+            </div>
+          </div>
+          <!-- closing new user button -->
+
+          <div class="col col-md-12">
+            <hr
+              class="col-md-12"
+              style="padding: 0px; border-top: 3px solid #02b6ff"
+            />
+          </div>
+
+          <!-- add medicines -->
+          <div class="row col col-md-12">
+            <div class="row col col-md-12 font-weight-bold">
+              <div class="col col-md-3">Medicine Name</div>
+              <!-- <div class="col col-md-2">Batch ID</div> -->
+              <!-- <div class="col col-md-1">Ava.Qty.</div> -->
+              <!-- <div class="col col-md-1">Expiry</div> -->
+              <div class="col col-md-1">Quantity</div>
+              <div class="col col-md-2">MRP</div>
+              <div class="col col-md-2">Discount(%)</div>
+              <div class="col col-md-2">Total</div>
+              <div class="col col-md-2">Action</div>
+            </div>
+          </div>
+          <div class="col col-md-12">
+            <hr
+              class="col-md-12"
+              style="padding: 0px; border-top: 2px solid #02b6ff"
+            />
+          </div>
+
+          <!-- add medicines -->
+          <div class="row col col-md-12">
+            <div
+              data-ng-repeat="(key, choice) in choices"
+              id="medicine_row{{key+1}}"
+            >
+              <div class="row col col-md-12">
+                <div class="col-md-3">
+                  <select
+                    class="form-control"
+                    ng-model="choice.type"
+                    ng-change="choice.mrp=medmrp[choice.type];changeTotal()"
+                    ng-options="item for item in selectOptions"
+                  ></select>
+                </div>
+
+                <div class="col col-md-1">
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="qty"
+                    ng-model="choice.quantity"
+                    ng-change="choice.total = choice.mrp*choice.quantity - (choice.mrp*choice.quantity/100)*choice.discount;changeTotal();"
+                  />
+                </div>
+
+                <div class="col col-md-2">
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="mrp"
+                    ng-model="choice.mrp"
+                    ng-change="choice.total = choice.mrp*choice.quantity - (choice.mrp*choice.quantity/100)*choice.discount;changeTotal()"
+                    disabled
+                  />
+                </div>
+
+                <div class="col col-md-2">
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="discount"
+                    ng-model="choice.discount"
+                    ng-change="choice.total = choice.mrp*choice.quantity - (choice.mrp*choice.quantity/100)*choice.discount;changeTotal()"
+                  />
+                </div>
+
+                <div class="col col-md-2">
+                  <input
+                    type="number"
+                    class="form-control"
+                    ng-model="choice.total"
+                    id="total"
+                    disabled=""
+                  />
+                </div>
+
+                <div class="col col-md-2">
+                  <button
+                    class="btn btn-danger"
+                    ng-click="removeChoice(choice.id)"
+                    ng-if="choice.id!=index"
+                  >
+                    -
+                  </button>
+                  <button
+                    class="btn btn-success"
+                    ng-click="addNewChoice()"
+                    ng-if="choice.id===index"
+                  >
+                    +
+                  </button>
+                  <!-- <button class="btn btn-primary" onclick="addRow();">
+                    <i class="fa fa-plus"></i>
+                  </button>
+                  <button
+                    class="btn btn-danger"
+                    onclick="removeRow('medicine_row_1');"
+                  >
+                    <i class="fa fa-trash"></i>
+                  </button> -->
+                </div>
+              </div>
+
+              <div class="col col-md-12">
+                <hr class="col-md-12" style="padding: 0px" />
+              </div>
+            </div>
+          </div>
+          <!-- end medicines -->
+
+          <div class="row col col-md-12">
+            <div class="col col-md-6 form-group"></div>
+            <div class="col col-md-2 form-group float-right">
+              <label class="font-weight-bold" for="">Total Amount:</label>
+              <input
+                ng-model="totalAmount"
+                type="text"
+                class="form-control"
+                value="0"
+                id="total_amount"
+                disabled
+              />
+            </div>
+            <div class="col col-md-2 form-group float-right">
+              <label class="font-weight-bold" for="">Total Discount :</label>
+              <input
+                type="text"
+                class="form-control"
+                value="0"
+                id="total_discount"
+                ng-model="totalDiscount"
+                disabled
+              />
+            </div>
+            <div class="col col-md-2 form-group float-right">
+              <label class="font-weight-bold" for="">Net Total :</label>
+              <input
+                type="text"
+                class="form-control"
+                value="0"
+                id="net_total"
+                ng-model="netTotal"
+                disabled
+              />
+            </div>
+          </div>
+
+          <div class="col col-md-12">
+            <hr class="col-md-12" style="padding: 0px" />
+          </div>
+
+          <div class="row col col-md-12">
+            <div id="save_button" class="col col-md-2 form-group float-right">
+              <label class="font-weight-bold" for=""></label>
+              <button
+                class="btn btn-success form-control font-weight-bold"
+                ng-click="addInvoice()"
+              >
+                Save
+              </button>
+            </div>
+            <div
+              id="new_invoice_button"
+              class="col col-md-2 form-group float-right"
+              style="display: none"
+            >
+              <label class="font-weight-bold" for=""></label>
+              <button
+                class="btn btn-primary form-control font-weight-bold"
+                onclick="location.reload();;"
+              >
+                New Invoice
+              </button>
+            </div>
+            <div
+              id="print_button"
+              class="col col-md-2 form-group float-right"
+              style="display: none"
+            >
+              <label class="font-weight-bold" for=""></label>
+              <button
+                class="btn btn-warning form-control font-weight-bold"
+                onclick="printInvoice(document.getElementById('invoice_number').value);"
+              >
+                Print
+              </button>
+            </div>
+            <div class="col col-md-4 form-group"></div>
+            <div class="col col-md-2 form-group float-right">
+              <label class="font-weight-bold" for="">Paid Amount :</label>
+              <input
+                type="text"
+                class="form-control"
+                name="total_discount"
+                ng-min="netTotal"
+                ng-change="balance = paidAmount-netTotal"
+                ng-model="paidAmount"
+              />
+            </div>
+            <div class="col col-md-2 form-group float-right">
+              <label class="font-weight-bold" for="">Change :</label>
+              <input
+                type="text"
+                class="form-control"
+                id="change_amt"
+                ng-model="balance"
+                disabled
+              />
+            </div>
+          </div>
+
+          <div id="invoice_acknowledgement" class="col-md-12 h5 text-success
+          font-weight-bold text-center" style="font-family: sans-serif;"
+        </div>
+      </div>
+      <!-- form content end -->
+      <hr style="border-top: 2px solid #ff5252" />
+    </div>
+    <!-- </div> -->
+    <script>
+      var mainApp = angular.module("customerApp", []);
+      mainApp.controller("customerController", function ($scope, $http) {
+        $scope.customers = [];
+        $scope.showForm = false;
+        $scope.custId = "";
+        $scope.selectedIdx = 0;
+
+        // Customers
+        $scope.customerName = "";
+        $scope.address = "";
+        $scope.paymentType = "1";
+        $scope.date = "";
+        $scope.contactNumber = "";
+
+        $scope.changeCustomer = function () {
+          // console.log('hjoilk');
+          let cust = $scope.customers.filter(
+            (c) => c.customerName == $scope.customerName
+          );
+          console.log(cust);
+          if (cust.length == 0) {
+            cust = $scope.customers[0];
+          } else {
+            cust = cust[0];
+          }
+          $scope.customerName = cust.customerName;
+          $scope.address = cust.address;
+          $scope.contactNumber = cust.contactNumber;
+        };
+
+        $http({
+          url: "http://localhost:3000/api/customer",
+          method: "GET",
+        }).then(
+          function (res) {
+            $scope.successMsg = "Saved Successfully";
+            $scope.customers = res.data;
+
+            console.log(res.data);
+          },
+          function (res) {
+            // optional
+            // failed
+            alert("Error: " + res.message);
+          }
+        );
+
+        // Invoice
+        $scope.selectOptions = ["Crocin", "Dolo 650", "Paracetamol"];
+        $scope.medmrp = { Crocin: 5, "Dolo 650": 2.5, Paracetamol: 2 };
+        $scope.balance = 0;
+        $scope.paidAmount = 0;
+
+        $scope.choices = [
+          { id: 1, type: "", quantity: 0, total: 0, mrp: 0, discount: 0 },
+          // { id: 1, type: "Mobile", name: "" },
+          // { id: 2, type: "Mobile", name: "" },
+        ];
+        $scope.totalAmount = 0;
+        $scope.totalDiscount = 0;
+        $scope.netTotal = 0;
+
+        $scope.changeTotal = function () {
+          // $scope.totalAmount = 0;
+          let totalAmt = 0;
+          let totalDisc = 0;
+          let totalNet = 0;
+
+          $scope.choices.forEach((el) => {
+            // let currTot = el.mrp * el.quantity;
+            // let currDisc = currTot*el.discount/100;
+            totalAmt += el.mrp * el.quantity;
+            totalNet += el.total;
+          });
+          totalDisc = totalAmt - totalNet;
+          $scope.totalAmount = totalAmt;
+          $scope.totalDiscount = totalDisc;
+          $scope.netTotal = totalNet;
+        };
+
+        $scope.index = $scope.choices.length;
+
+        $scope.addNewChoice = function () {
+          var newItemNo = ++$scope.index;
+          $scope.choices.push({ id: newItemNo, type: "Mobile", name: "" });
+        };
+
+        $scope.removeChoice = function (id) {
+          if ($scope.choices.length <= 1) {
+            alert("input cannot be less than 1");
+            return;
+          }
+
+          var index = -1;
+          var comArr = eval($scope.choices);
+          for (var i = 0; i < comArr.length; i++) {
+            if (comArr[i].id === id) {
+              index = i;
+              break;
+            }
+          }
+          if (index === -1) {
+            alert("Something gone wrong");
+          }
+          $scope.choices.splice(index, 1);
+        };
+
+        $scope.addInvoice = function() {
+
+          var ptype = {"1": "Cash", "2": "Card", "3": "Net Banking"};
+          var pay = ptype[$scope.paymentType];
+
+          var medicines = $scope.choices.map(ch => {
+            return {
+              name: ch.type,
+              quantity: ch.quantity,
+              mrp: ch.mrp,
+              discount: ch.discount,
+              total: ch.total
+            };
+          });
+          var postData = {
+            customerName: $scope.customerName,
+            paymentType: pay,
+            date: $scope.date,
+            medicine: medicines,
+            totalAmount: $scope.totalAmount,
+            totalDiscount: $scope.totalDiscount,
+            netTotal: $scope.netTotal,
+            amountPaid: $scope.paidAmount,
+            change: $scope.balance
+          };
+          // console.log(postData);
+          $http({
+            url: "http://localhost:3000/api/invoice",
+            method: "POST",
+            data: postData
+          }).then(
+            function (res) {
+              alert("Saved Successfully");
+              // $scope.customers = res.data;
+
+              console.log(res.data);
+            },
+            function (res) {
+              // optional
+              // failed
+              alert("Error: " + res.message);
+            }
+          );
+        }
+
+        // $scope.reset();
+      });
+    </script>
+  </body>
+</html>

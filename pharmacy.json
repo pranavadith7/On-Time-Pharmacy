@@ -1,0 +1,28 @@
+{
+    "orders": {
+        "order": {
+            "orderID": 101,
+            "name": "Pranav",
+            "phone": 9361213492,
+            "address": "Ettimadai, Coimbatore",
+            "date": "25/08/2022",
+            "medicines": {
+            "medicine": [
+                {
+                "medicine_name": "Crocin",
+                "mrp":5,
+                "quantity": 3,
+                "discount": 10
+                },
+                {
+                "medicine_name": "Gelusil",
+                "mrp":95,
+                "quantity": 1,
+                "discount": 15
+                }
+            ]
+            },
+            "amount": 500
+        }
+    }
+}
